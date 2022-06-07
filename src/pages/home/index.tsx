@@ -11,7 +11,7 @@ export const HomePage = () => {
           height: "100%",
           display: "grid",
           gridTemplateColumns: "auto auto auto",
-          columnGap: "30vh",
+          columnGap: "3vw",
           justifyContent: "center",
           alignItems: "center",
         }}

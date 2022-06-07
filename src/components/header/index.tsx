@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { FaSearchLocation } from "react-icons/fa";
+import { AiFillHome } from "react-icons/ai";
 import Clock from "react-live-clock";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {}
 
@@ -24,7 +26,7 @@ export const Header = ({}: HeaderProps) => {
         alignItems: "center",
       }}
     >
-      <div
+      <nav
         style={{
           height: "100%",
           display: "flex",
@@ -32,6 +34,9 @@ export const Header = ({}: HeaderProps) => {
           alignItems: "center",
         }}
       >
+        <Link to="/" style={{ color: "black" }}>
+          <AiFillHome size={"5vh"} />
+        </Link>
         <input
           style={{
             margin: "0 1rem",
@@ -47,8 +52,9 @@ export const Header = ({}: HeaderProps) => {
           size={"5vh"}
           style={{ cursor: "pointer" }}
           onClick={handleSearchClick}
+          role={"button"}
         />
-      </div>
+      </nav>
       <div style={{ margin: "0 1rem", fontSize: "1.5rem" }}>
         <Clock format={"HH:mm:ss"} interval={1000} ticking />
       </div>

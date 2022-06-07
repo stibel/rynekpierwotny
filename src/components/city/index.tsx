@@ -1,33 +1,36 @@
-import { useEffect, useState } from "react";
-import { useGetWeatherByParamQuery } from "../../services/weather";
-import { City } from "../../types/city";
-import { Weather } from "../../types/weather";
+import { useEffect } from "react";
+import { ImCross } from "react-icons/im";
 import Clock from "react-live-clock";
+import { SpinnerCircular } from "spinners-react";
+import { useGetWeatherByParamQuery } from "../../services/weather";
 
 interface CityProps {
   name: string;
 }
 
 export const CityTile = ({ name }: CityProps) => {
-  const [city, setCity] = useState<City | null>(null);
-  const [weather, setWeather] = useState<Weather | null>(null);
-  const { data, isLoading } = useGetWeatherByParamQuery(name);
-  useEffect(() => {
-    if (data) {
-      setCity(data.location);
-      setWeather(data.current);
-    }
-  }, [data]);
+  const { data, isLoading, error } = useGetWeatherByParamQuery(name);
+  useEffect(() => console.log(data), [data]);
   return (
     <div
       style={{
-        width: "40vh",
+        width: "30vw",
         height: "40vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      {isLoading ? (
-        <h1>Loading</h1>
-      ) : (
+      {isLoading && <SpinnerCircular size={100} />}
+      {error && (
+        <div
+          style={{ display: "flex", flexFlow: "column", textAlign: "center" }}
+        >
+          <ImCross size={250} />
+          <h1>No results</h1>
+        </div>
+      )}
+      {data && (
         <div
           style={{
             width: "100%",
@@ -36,9 +39,10 @@ export const CityTile = ({ name }: CityProps) => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            backgroundImage: weather?.is_day
+            color: data.current?.is_day ? "#000" : "#fff",
+            backgroundImage: data.current?.is_day
               ? "linear-gradient(#ffd700, #fffaf0)"
-              : "linear-gradient(#191970, #483d8b)",
+              : "linear-gradient(#191970, #483d8b)", //change tile display color based on daytime
             borderRadius: 5,
           }}
         >
@@ -47,7 +51,7 @@ export const CityTile = ({ name }: CityProps) => {
               fontSize: "3rem",
             }}
           >
-            {city?.name}
+            {data.location?.name}
           </div>
           <div
             style={{
@@ -56,17 +60,25 @@ export const CityTile = ({ name }: CityProps) => {
               fontSize: "1.5rem",
             }}
           >
-            <div>{weather?.condition?.text}</div>
-            <img src={weather?.condition?.icon} alt={"icon"} />
+            <span>{data.current?.condition?.text}</span>
+            <img src={data.current?.condition?.icon} alt={"icon"} />
           </div>
-          <div>
-            {weather?.temp_c}&#176;C feels like {weather?.feelslike_c}&#176;C
-          </div>
+          <div style={{width: "100%", display:"grid", gridTemplateColumns: "auto auto", justifyContent: "center",
+          alignItems: "center", textAlign: "left", columnGap: "10%"}}>
+          <span>
+            {data.current?.temp_c}&#176;C 
+          </span>
+          <span>
+          Feels like {data.current?.feelslike_c}&#176;C
+          </span>
+          <span>Wind {data.current?.wind_kph}km/h</span>
+          <span>Humidity {data.current?.humidity}% </span>
+            </div>
           <Clock
             format={"HH:mm:ss"}
             interval={1000}
             ticking
-            timezone={city?.tz_id}
+            timezone={data.location?.tz_id}
           />
         </div>
       )}

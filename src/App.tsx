@@ -10,7 +10,7 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Header />
+        <Header /> {/* search bar visible on all pages */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/:city" element={<CityPage />} />
