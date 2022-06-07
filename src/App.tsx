@@ -3,7 +3,7 @@ import "./App.css";
 import { Header } from "./components/header";
 import { HomePage } from "./pages/home";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { store } from "./redux/store";
 import { CityPage } from "./pages/city";
 
 function App() {

@@ -63,17 +63,22 @@ export const CityTile = ({ name }: CityProps) => {
             <span>{data.current?.condition?.text}</span>
             <img src={data.current?.condition?.icon} alt={"icon"} />
           </div>
-          <div style={{width: "100%", display:"grid", gridTemplateColumns: "auto auto", justifyContent: "center",
-          alignItems: "center", textAlign: "left", columnGap: "10%"}}>
-          <span>
-            {data.current?.temp_c}&#176;C 
-          </span>
-          <span>
-          Feels like {data.current?.feelslike_c}&#176;C
-          </span>
-          <span>Wind {data.current?.wind_kph}km/h</span>
-          <span>Humidity {data.current?.humidity}% </span>
-            </div>
+          <div
+            style={{
+              width: "100%",
+              display: "grid",
+              gridTemplateColumns: "auto auto",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "left",
+              columnGap: "10%",
+            }}
+          >
+            <span>{data.current?.temp_c}&#176;C</span>
+            <span>Feels like {data.current?.feelslike_c}&#176;C</span>
+            <span>Wind {data.current?.wind_kph}km/h</span>
+            <span>Humidity {data.current?.humidity}% </span>
+          </div>
           <Clock
             format={"HH:mm:ss"}
             interval={1000}
