@@ -1,13 +1,14 @@
 import { useEffect } from "react";
-import { ImCross } from "react-icons/im";
 import Clock from "react-live-clock";
 import { SpinnerCircular } from "spinners-react";
 import { useAppSelector } from "../../redux/hooks";
 import {
   selectCity,
-  selectCityToCompare
+  selectCityToCompare,
 } from "../../redux/slices/comparison-slice";
 import { useGetWeatherByParamQuery } from "../../services/weather";
+import { getRoundedAbs } from "../../utils/round";
+import { NoResults } from "../no-results";
 
 interface ComparisonProps {}
 
@@ -16,10 +17,6 @@ export const Comparison = ({}: ComparisonProps) => {
   const city = useAppSelector(selectCity);
   const cityToCompare = useAppSelector(selectCityToCompare);
   const { data, isLoading, error } = useGetWeatherByParamQuery(cityToCompare);
-  useEffect(
-    () => console.log(city, cityToCompare, data),
-    [city, cityToCompare, data]
-  );
 
   return (
     <div
@@ -31,16 +28,9 @@ export const Comparison = ({}: ComparisonProps) => {
         alignItems: "center",
       }}
     >
-      {isLoading && <SpinnerCircular size={100} />}
-      {error && (
-        <div
-          style={{ display: "flex", flexFlow: "column", textAlign: "center" }}
-        >
-          <ImCross size={250} />
-          <h1>No results</h1>
-        </div>
-      )}
-      {data && (
+      {isLoading ? (
+        <SpinnerCircular size={100} />
+      ) : data && city && !error ? (
         <div
           style={{
             width: "100%",
@@ -84,10 +74,38 @@ export const Comparison = ({}: ComparisonProps) => {
               columnGap: "10%",
             }}
           >
-            <span>{data.current?.temp_c}&#176;C</span>
-            <span>Feels like {data.current?.feelslike_c}&#176;C</span>
-            <span>Wind {data.current?.wind_kph}km/h</span>
-            <span>Humidity {data.current?.humidity}% </span>
+            <span>
+              It is {getRoundedAbs(city.current.temp_c - data.current?.temp_c)}
+              &#176;C
+              {city.current.temp_c - data.current?.temp_c > 0
+                ? " colder"
+                : " warmer"}
+            </span>
+            <span>
+              It feels{" "}
+              {getRoundedAbs(
+                city.current.feelslike_c - data.current?.feelslike_c
+              )}
+              &#176;C
+              {city.current.feelslike_c - data.current?.feelslike_c > 0
+                ? " colder"
+                : " warmer"}
+            </span>
+            <span>
+              Wind is{" "}
+              {getRoundedAbs(city.current.wind_kph - data.current?.wind_kph)}
+              km/h
+              {city.current.wind_kph - data.current?.wind_kph > 0
+                ? " slower"
+                : " faster"}
+            </span>
+            <span>
+              It is {Math.abs(city.current.humidity - data.current?.humidity)}%{" "}
+              {city.current.humidity - data.current?.humidity
+                ? " more"
+                : " less"}{" "}
+              humid
+            </span>
           </div>
           <Clock
             format={"HH:mm:ss"}
@@ -96,6 +114,8 @@ export const Comparison = ({}: ComparisonProps) => {
             timezone={data.location?.tz_id}
           />
         </div>
+      ) : (
+        <NoResults />
       )}
     </div>
   );

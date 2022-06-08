@@ -1,6 +1,9 @@
 import Select from "react-select";
-import { useAppDispatch } from "../../redux/hooks";
-import { setCityToCompare } from "../../redux/slices/comparison-slice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {
+  selectCity,
+  setCityToCompare,
+} from "../../redux/slices/comparison-slice";
 
 interface CitySelectProps {
   options: Array<{ value: string; label: string }>;
@@ -8,6 +11,7 @@ interface CitySelectProps {
 
 export const CitySelect = ({ options }: CitySelectProps) => {
   const dispatch = useAppDispatch();
+  const city = useAppSelector(selectCity);
 
   return (
     <div
@@ -23,6 +27,7 @@ export const CitySelect = ({ options }: CitySelectProps) => {
       <Select
         options={options}
         onChange={(e) => dispatch(setCityToCompare(e?.value as string))}
+        isDisabled={!options.length || !city}
       />
       <span>:</span>
     </div>

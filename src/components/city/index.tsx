@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { ImCross } from "react-icons/im";
 import Clock from "react-live-clock";
 import { SpinnerCircular } from "spinners-react";
 import { useAppDispatch } from "../../redux/hooks";
 import { setCity } from "../../redux/slices/comparison-slice";
 import { useGetWeatherByParamQuery } from "../../services/weather";
+import { NoResults } from "../no-results";
 
 interface CityProps {
   name: string;
@@ -16,6 +16,11 @@ export const CityTile = ({ name }: CityProps) => {
   useEffect(() => {
     if (data) dispatch(setCity(data));
   }, [data, dispatch]);
+  useEffect(() => {
+    if (error) {
+      dispatch(setCity(null));
+    }
+  }, [error, dispatch]);
   return (
     <div
       style={{
@@ -26,16 +31,9 @@ export const CityTile = ({ name }: CityProps) => {
         alignItems: "center",
       }}
     >
-      {isLoading && <SpinnerCircular size={100} />}
-      {error && (
-        <div
-          style={{ display: "flex", flexFlow: "column", textAlign: "center" }}
-        >
-          <ImCross size={250} />
-          <h1>No results</h1>
-        </div>
-      )}
-      {data && (
+      {isLoading ? (
+        <SpinnerCircular size={100} />
+      ) : data && !error ? (
         <div
           style={{
             width: "100%",
@@ -91,6 +89,8 @@ export const CityTile = ({ name }: CityProps) => {
             timezone={data.location?.tz_id}
           />
         </div>
+      ) : (
+        <NoResults />
       )}
     </div>
   );

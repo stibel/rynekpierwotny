@@ -22,7 +22,7 @@ export const comparisonSlice = createSlice({
   reducers: {
     setCity: (
       state,
-      action: { payload: { location: City; current: Weather } }
+      action: { payload: { location: City; current: Weather } | null }
     ) => {
       state.city = action.payload;
     },
