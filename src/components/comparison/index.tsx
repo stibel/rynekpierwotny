@@ -15,7 +15,11 @@ interface ComparisonProps {}
 export const Comparison = ({}: ComparisonProps) => {
   const city = useAppSelector(selectCity);
   const cityToCompare = useAppSelector(selectCityToCompare);
-  const { data, isLoading, error } = useGetWeatherByParamQuery(cityToCompare);
+  const {
+    data: dataToCompare,
+    isLoading,
+    error,
+  } = useGetWeatherByParamQuery(cityToCompare);
 
   return (
     <div
@@ -29,7 +33,7 @@ export const Comparison = ({}: ComparisonProps) => {
     >
       {isLoading ? (
         <SpinnerCircular size={100} />
-      ) : data && city && !error ? (
+      ) : dataToCompare && city && !error ? (
         <div
           style={{
             width: "100%",
@@ -38,8 +42,8 @@ export const Comparison = ({}: ComparisonProps) => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            color: data.current?.is_day ? "#000" : "#fff",
-            backgroundImage: data.current?.is_day
+            color: dataToCompare.current?.is_day ? "#000" : "#fff",
+            backgroundImage: dataToCompare.current?.is_day
               ? "linear-gradient(#ffd700, #fffaf0)"
               : "linear-gradient(#191970, #483d8b)", //change tile display color based on daytime
             borderRadius: 5,
@@ -50,7 +54,7 @@ export const Comparison = ({}: ComparisonProps) => {
               fontSize: "3rem",
             }}
           >
-            {data.location?.name}
+            {dataToCompare.location?.name}
           </div>
           <div
             style={{
@@ -59,8 +63,8 @@ export const Comparison = ({}: ComparisonProps) => {
               fontSize: "1.5rem",
             }}
           >
-            <span>{data.current?.condition?.text}</span>
-            <img src={data.current?.condition?.icon} alt={"icon"} />
+            <span>{dataToCompare.current?.condition?.text}</span>
+            <img src={dataToCompare.current?.condition?.icon} alt={"icon"} />
           </div>
           <div
             style={{
@@ -74,34 +78,43 @@ export const Comparison = ({}: ComparisonProps) => {
             }}
           >
             <span>
-              It is {getRoundedAbs(city.current.temp_c - data.current?.temp_c)}
+              It is{" "}
+              {getRoundedAbs(
+                city.current.temp_c - dataToCompare.current?.temp_c
+              )}
               &#176;C
-              {city.current.temp_c - data.current?.temp_c > 0
+              {city.current.temp_c - dataToCompare.current?.temp_c > 0
                 ? " colder"
                 : " warmer"}
             </span>
             <span>
               It feels{" "}
               {getRoundedAbs(
-                city.current.feelslike_c - data.current?.feelslike_c
+                city.current.feelslike_c - dataToCompare.current?.feelslike_c
               )}
               &#176;C
-              {city.current.feelslike_c - data.current?.feelslike_c > 0
+              {city.current.feelslike_c - dataToCompare.current?.feelslike_c > 0
                 ? " colder"
                 : " warmer"}
             </span>
             <span>
               Wind is{" "}
-              {getRoundedAbs(city.current.wind_kph - data.current?.wind_kph)}
+              {getRoundedAbs(
+                city.current.wind_kph - dataToCompare.current?.wind_kph
+              )}
               km/h
-              {city.current.wind_kph - data.current?.wind_kph > 0
+              {city.current.wind_kph - dataToCompare.current?.wind_kph > 0
                 ? " slower"
                 : " faster"}
             </span>
             <span>
-              It is {Math.abs(city.current.humidity - data.current?.humidity)}%{" "}
-              {/* humidity in an integer from 0 to 100 so it doesn't need to be rounded */}
-              {city.current.humidity - data.current?.humidity
+              It is{" "}
+              {Math.abs(
+                city.current.humidity - dataToCompare.current?.humidity
+              )}
+              %{" "}
+              {/* humidity is an integer from 0 to 100 so it doesn't need to be rounded */}
+              {city.current.humidity - dataToCompare.current?.humidity
                 ? " more"
                 : " less"}{" "}
               humid
@@ -111,7 +124,7 @@ export const Comparison = ({}: ComparisonProps) => {
             format={"HH:mm:ss"}
             interval={1000}
             ticking
-            timezone={data.location?.tz_id}
+            timezone={dataToCompare.location?.tz_id}
           />
         </div>
       ) : (
