@@ -20,7 +20,7 @@ export const Header = ({}: HeaderProps) => {
         margin: 0,
         height: "10vh",
         width: "100vw",
-        backgroundColor: "red",
+        backgroundColor: "#38ad48",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",

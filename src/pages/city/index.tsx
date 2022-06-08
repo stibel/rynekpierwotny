@@ -18,6 +18,7 @@ export const CityPage = ({}: CityPageProps) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          padding: 5,
         }}
       >
         <CityTile name={city as string} />

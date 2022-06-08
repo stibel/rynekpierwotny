@@ -15,6 +15,8 @@ export const Page = ({ children }: PageProps) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        backgroundImage:
+        "linear-gradient(#38ad48, #fffbca)",
       }}
     >
       {children}

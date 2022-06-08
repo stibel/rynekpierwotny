@@ -1,10 +1,9 @@
-import { useEffect } from "react";
 import Clock from "react-live-clock";
 import { SpinnerCircular } from "spinners-react";
 import { useAppSelector } from "../../redux/hooks";
 import {
   selectCity,
-  selectCityToCompare,
+  selectCityToCompare
 } from "../../redux/slices/comparison-slice";
 import { useGetWeatherByParamQuery } from "../../services/weather";
 import { getRoundedAbs } from "../../utils/round";
