@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import { CityTile } from "../../components/city";
+import { CitySelect } from "../../components/city-select";
 import { Comparison } from "../../components/comparison";
 import { Page } from "../../components/page";
 
@@ -18,7 +20,20 @@ export const CityPage = ({}: CityPageProps) => {
           alignItems: "center",
         }}
       >
-        <Comparison cityToCompare={city as string} />
+        <CityTile name={city as string} />
+        <CitySelect
+          options={[
+            { value: "Warsaw", label: "Warsaw" },
+            { value: "Krakow", label: "Kraków" },
+            { value: "Lodz", label: "Łódź" },
+            { value: "Wroclaw", label: "Wrocław" },
+            { value: "Poznan", label: "Poznań" },
+            { value: "Gdansk", label: "Gdańsk" },
+            { value: "Szczecin", label: "Szczecin" },
+            { value: "Bydgoszcz", label: "Bydgoszcz" },
+          ]}
+        />
+        <Comparison />
       </div>
     </Page>
   );

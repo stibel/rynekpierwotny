@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { ImCross } from "react-icons/im";
 import Clock from "react-live-clock";
 import { SpinnerCircular } from "spinners-react";
+import { useAppDispatch } from "../../redux/hooks";
+import { setCity } from "../../redux/slices/comparison-slice";
 import { useGetWeatherByParamQuery } from "../../services/weather";
 
 interface CityProps {
@@ -10,7 +12,10 @@ interface CityProps {
 
 export const CityTile = ({ name }: CityProps) => {
   const { data, isLoading, error } = useGetWeatherByParamQuery(name);
-  useEffect(() => console.log(data), [data]);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (data) dispatch(setCity(data));
+  }, [data, dispatch]);
   return (
     <div
       style={{
