@@ -1,2 +1,2 @@
-#Recruitment task for RynekPierwotny
+# Recruitment task for RynekPierwotny
 `npm start` to run
