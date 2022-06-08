@@ -32,6 +32,7 @@ export const Header = ({}: HeaderProps) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          margin: "0 1rem",
         }}
       >
         <Link to="/" style={{ color: "black" }}>
@@ -46,7 +47,7 @@ export const Header = ({}: HeaderProps) => {
           }}
           type={"text"}
           onChange={(e) => setSearchLocation(e.target.value)}
-          placeholder={"Search..."}
+          placeholder={"Search city..."}
         />
         <FaSearchLocation
           size={"5vh"}

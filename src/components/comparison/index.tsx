@@ -3,7 +3,7 @@ import { SpinnerCircular } from "spinners-react";
 import { useAppSelector } from "../../redux/hooks";
 import {
   selectCity,
-  selectCityToCompare
+  selectCityToCompare,
 } from "../../redux/slices/comparison-slice";
 import { useGetWeatherByParamQuery } from "../../services/weather";
 import { getRoundedAbs } from "../../utils/round";
@@ -100,6 +100,7 @@ export const Comparison = ({}: ComparisonProps) => {
             </span>
             <span>
               It is {Math.abs(city.current.humidity - data.current?.humidity)}%{" "}
+              {/* humidity in an integer from 0 to 100 so it doesn't need to be rounded */}
               {city.current.humidity - data.current?.humidity
                 ? " more"
                 : " less"}{" "}

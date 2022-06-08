@@ -21,6 +21,7 @@ export const CityTile = ({ name }: CityProps) => {
       dispatch(setCity(null));
     }
   }, [error, dispatch]);
+  // set city data to store, set to null if error occurs to avoid displaying old data
   return (
     <div
       style={{

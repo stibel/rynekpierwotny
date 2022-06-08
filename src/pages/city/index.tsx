@@ -14,15 +14,16 @@ export const CityPage = ({}: CityPageProps) => {
     <Page>
       <div
         style={{
-          width: "100%",
+          width: "100",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: 5,
+          margin: "0 1rem",
+          gap: "10vw",
         }}
       >
         <CityTile name={city as string} />
-        <CitySelect
+        <CitySelect //most populated cities in Poland
           options={[
             { value: "Warsaw", label: "Warsaw" },
             { value: "Krakow", label: "Kraków" },
